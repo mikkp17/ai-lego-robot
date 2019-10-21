@@ -17,13 +17,13 @@ TURN_SPEED = 80
 cl1 = ev3.ColorSensor('in1')
 cl2 = ev3.ColorSensor('in2')
 
-cl1.mode = 'COL-COLOR'
-cl2.mode = 'COL-COLOR'
+cl1.mode = 'COL-REFLECT'
+cl2.mode = 'COL-REFLECT'
 
 assert cl1.connected, "ColorSensorLeft(ColorSensor) is not connected"
 assert cl2.connected, "ColorSensorRight(ColorSensor) is not connected"
 
-colors = ('unknown', 'black', 'blue', 'green', 'yellow', 'red', 'white', 'brown')
+# colors = ('unknown', 'black', 'blue', 'green', 'yellow', 'red', 'white', 'brown')
 
 mB.run_direct()
 mA.run_direct()
