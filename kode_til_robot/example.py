@@ -52,6 +52,10 @@ while True:
     if clL.value() <= 20 and clR.value() <= 20:
         mL.duty_cycle_sp = BASE_SPEED
         mR.duty_cycle_sp = 0
+		
+		while cl1.value() <= 40 or cl2.value() <= 40:
+            # keep running while on black line
+            print()
 
         if clR.value() <= 20:
             mL.duty_cycle_sp = 0
