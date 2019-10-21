@@ -1,2 +1,2 @@
-# Lego Mindstorm EV3 Robot
-Assignment for Introduction to Artificial Intelligence
+# Sokoban Solving Lego Mindstorm EV3 Robot
+This is an assignment for the course Introduction to Artificial Intelligence
