@@ -52,15 +52,21 @@ while True:
     if clL.value() <= 20 and clR.value() <= 20:
         mL.duty_cycle_sp = BASE_SPEED
         mR.duty_cycle_sp = 0
-		
-		while cl1.value() <= 40 or cl2.value() <= 40:
+
+        while clL.value() <= 40 or clR.value() <= 40:
             # keep running while on black line
-            print()
+            print("Leftsensor: " + clL.value() + "Rightsensor: " + clR.value())
 
         if clR.value() <= 20:
+            print("nestedif")
             mL.duty_cycle_sp = 0
             mR.duty_cycle_sp = 0
+            exit()
 
+    if btn.down:
+        mL.duty_cycle_sp = 0
+        mR.duty_cycle_sp = 0
+        exit()
 '''    if cl1.value() <= 20 and cl2.value() <= 20:
         if LINE_COUNTER > 0:
             mA.duty_cycle_sp = 0
@@ -73,7 +79,3 @@ while True:
                 print()
             LINE_COUNTER += 1
 '''
-if btn.down:
-    mL.duty_cycle_sp = 0
-    mR.duty_cycle_sp = 0
-    exit()
