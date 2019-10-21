@@ -48,23 +48,20 @@ LINE_COUNTER = 0
 while True:
     mA.duty_cycle_sp = BASE_SPEED
     mB.duty_cycle_sp = BASE_SPEED
-	
+
     if cl1.value() <= 20 and cl2.value() <= 20:
-		if LINE_COUNTER > 0:
-			mA.duty_cycle_sp = 0
-			mB.duty_cycle_sp = 0
-			exit()
-		
-		if LINE_COUNTER <= 0:
-			while cl1.value() <= 40 or cl2.value() <= 40:
-				# keep running while on black line
-			LINE_COUNTER += 1
-		
+        if LINE_COUNTER > 0:
+            mA.duty_cycle_sp = 0
+            mB.duty_cycle_sp = 0
+            exit()
+
+        if LINE_COUNTER <= 0:
+            while cl1.value() <= 40 or cl2.value() <= 40:
+            # keep running while on black line
+                print()
+            LINE_COUNTER += 1
+
     if btn.down:
         mA.duty_cycle_sp = 0
         mB.duty_cycle_sp = 0
         exit()
-
-		
-		
-		
