@@ -46,7 +46,7 @@ print('Press Ctrl+C to exit')
 while True:
     mA.duty_cycle_sp = BASE_SPEED
     mB.duty_cycle_sp = BASE_SPEED
-    if cl1.value() == 1 and cl2.value() == 1:
+    if cl1.value() <= 30 and cl2.value() <= 30:
         mA.duty_cycle_sp = 0
         mB.duty_cycle_sp = 0
         exit()
