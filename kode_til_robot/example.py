@@ -45,9 +45,9 @@ print('Press Ctrl+C to exit')
 
 LINE_COUNTER = 0
 
+mL.duty_cycle_sp = BASE_SPEED
+mR.duty_cycle_sp = BASE_SPEED
 while True:
-    mL.duty_cycle_sp = BASE_SPEED
-    mR.duty_cycle_sp = BASE_SPEED
 
     if clL.value() <= 20 and clR.value() <= 20:
         mL.duty_cycle_sp = BASE_SPEED
@@ -55,10 +55,11 @@ while True:
 
         while clL.value() <= 40 or clR.value() <= 40:
             # keep running while on black line
-            print("Leftsensor: " + clL.value() + "Rightsensor: " + clR.value())
+            print(clL.value())
+            print(clR.value())
 
         if clR.value() <= 20:
-            print("nestedif")
+            # print("nestedif")
             mL.duty_cycle_sp = 0
             mR.duty_cycle_sp = 0
             exit()
