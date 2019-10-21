@@ -48,14 +48,14 @@ LINE_COUNTER = 0
 while True:
     mL.duty_cycle_sp = BASE_SPEED
     mR.duty_cycle_sp = BASE_SPEED
-	
-	if clL.values() <= 20 and clR.values() <= 20:
-		mL.duty_cycle_sp = BASE_SPEED
-		mR.duty_cycle_sp = 0
-		
-		if clR <= 20:
-			mL.duty_cycle_sp = 0
-			mR.duty_cycle_sp = 0
+
+    if clL.value() <= 20 and clR.value() <= 20:
+        mL.duty_cycle_sp = BASE_SPEED
+        mR.duty_cycle_sp = 0
+
+        if clR.value() <= 20:
+            mL.duty_cycle_sp = 0
+            mR.duty_cycle_sp = 0
 
 '''    if cl1.value() <= 20 and cl2.value() <= 20:
         if LINE_COUNTER > 0:
@@ -69,7 +69,7 @@ while True:
                 print()
             LINE_COUNTER += 1
 '''
-    if btn.down:
-        mL.duty_cycle_sp = 0
-        mR.duty_cycle_sp = 0
-        exit()
+if btn.down:
+    mL.duty_cycle_sp = 0
+    mR.duty_cycle_sp = 0
+    exit()
