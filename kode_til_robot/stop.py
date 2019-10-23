@@ -1,15 +1,18 @@
 #!/usr/bin/python3.4
 import ev3dev.ev3 as ev3
 
-mA = ev3.LargeMotor('outA')
-mB = ev3.LargeMotor('outB')
+mL = ev3.LargeMotor('outA')
+mR = ev3.LargeMotor('outB')
 
-mB.run_direct()
-mA.run_direct()
+assert mL.connected, "Left motor is not connected"
+assert mR.connected, "Right motor is not connected"
 
-mA.polarity = "normal"
-mB.polarity = "normal"
+mR.run_direct()
+mL.run_direct()
 
-mA.duty_cycle_sp = 0
-mB.duty_cycle_sp = 0
+mL.polarity = "normal"
+mR.polarity = "normal"
+
+mL.duty_cycle_sp = 0
+mR.duty_cycle_sp = 0
 exit()
