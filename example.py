@@ -42,6 +42,42 @@ mL.duty_cycle_sp = BASE_SPEED
 mR.duty_cycle_sp = BASE_SPEED
 # turning = False
 on_line = False
+
+while not btn.down:
+    while STATE == 0:
+        if clL.value() <= 20 and clR.value() <= 20:
+            STATE = 1
+        if clL.value() <= 20 and clR.value() >= 40:
+            mL.duty_cycle_sp = BASE_SPEED / 2
+        if clL.value() >= 40 and clR.value() <= 20:
+            mR.duty_cycle_sp = BASE_SPEED / 2
+        if clL.value() >= 40 and clR.value() >= 40:
+            mL.duty_cycle_sp = BASE_SPEED
+            mR.duty_cycle_sp = BASE_SPEED
+    if clL.value() >= 60 and clR.value() >= 60 and STATE == 1:
+        mL.duty_cycle_sp = BASE_SPEED
+        mR.duty_cycle_sp = -10
+        STATE = 2
+    # while clL.value() <= 20 and clR.value() <= 20:
+    #     print('On line')
+    # turning = True
+    # clL.value() >= 50 and clR.value() >= 50 and
+    while STATE == 2:
+
+        print('turning')
+        if clR.value() <= 20:
+            print('right sensor black')
+            on_line = True
+            # turning = False
+        if on_line is True and clR.value() >= 60:
+            print('Passed line')
+            on_line = False
+            mL.duty_cycle_sp = BASE_SPEED
+            mR.duty_cycle_sp = BASE_SPEED
+            STATE = 0
+
+
+'''
 while not btn.down:
     if clL.value() <= 20 and clR.value() <= 20 and STATE == 0:
         STATE = 1
@@ -69,7 +105,7 @@ while not btn.down:
             STATE = 0
 
     # print('Free of line')
-
+'''
 print('Program finishing')
 mL.duty_cycle_sp = 0
 mR.duty_cycle_sp = 0
