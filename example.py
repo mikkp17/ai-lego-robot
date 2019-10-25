@@ -52,6 +52,13 @@ while not btn.down:
         mL.duty_cycle_sp = BASE_SPEED
         mR.duty_cycle_sp = 0
 
+        while clL.value() <= 30 and clR.value() <= 30:
+            print('On line')
+        if clL.value() >= 70 and clR.value() >= 70:
+            print('Free of line')
+            mL.duty_cycle_sp = 0
+            mR.duty_cycle_sp = 0
+
 print('Program finishing')
 mL.duty_cycle_sp = 0
 mR.duty_cycle_sp = 0
