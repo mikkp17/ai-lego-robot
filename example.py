@@ -8,7 +8,7 @@ mR = ev3.LargeMotor('outB')
 THRESHOLD_LEFT = 30
 THRESHOLD_RIGHT = 350
 
-BASE_SPEED = 25
+BASE_SPEED = 15
 TURN_SPEED = 80
 
 clL = ev3.ColorSensor('in1')
