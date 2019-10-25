@@ -68,6 +68,7 @@ while True:
         mL.duty_cycle_sp = 0
         mR.duty_cycle_sp = 0
         exit()
+
 '''    if cl1.value() <= 20 and cl2.value() <= 20:
         if LINE_COUNTER > 0:
             mA.duty_cycle_sp = 0

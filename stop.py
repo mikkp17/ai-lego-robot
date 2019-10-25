@@ -1,4 +1,4 @@
-#!/usr/bin/python3.4
+#!/usr/bin/python3.6
 import ev3dev.ev3 as ev3
 
 mL = ev3.LargeMotor('outA')
