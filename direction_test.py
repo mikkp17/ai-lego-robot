@@ -1,8 +1,13 @@
-DIRECTIONS = ['up', 'right', 'down', 'left']
+DIRECTIONS = ['u', 'r', 'd', 'l']
 
-current_direction = 'down'
+current_direction = 'd'
 
-solution = ['up', 'left', 'left', 'down', 'up', 'right', 'left', 'right', 'down']
+solution = ['L', 'd', 'l', 'l', 'l', 'u', 'u', 'u', 'u', 'R', 'R', 'd', 'r', 'U', 'U', 'U', 'U', 'd', 'd', 'd',
+            'l', 'l', 'l', 'd', 'd', 'r', 'U', 'l', 'u', 'R', 'R', 'd', 'r', 'U', 'U', 'U', 'r', 'u', 'L', 'L',
+            'L', 'u', 'l', 'D', 'r', 'r', 'r', 'd', 'd', 'd', 'd', 'l', 'l', 'l', 'd', 'd', 'd', 'r', 'U', 'U',
+            'U', 'l', 'u', 'R', 'R', 'd', 'r', 'U', 'U', 'U', 'r', 'u', 'L', 'd', 'd', 'd', 'd', 'l', 'l', 'd',
+            'd', 'd', 'r', 'r', 'u', 'L', 'd', 'l', 'U', 'U', 'U', 'l', 'u', 'R', 'R', 'd', 'r', 'U', 'U', 'U',
+            'r', 'u', 'u', 'L', 'L', 'L', 'r', 'D', 'R', 'u', 'r', 'D']
 moves = []
 
 
@@ -45,6 +50,7 @@ def run():
         moves.append(calculate_direction(pos))
     for move in moves:
         print(move)
+    print('Last direction is ' + current_direction + ' and now I stop')
 
 
 run()
