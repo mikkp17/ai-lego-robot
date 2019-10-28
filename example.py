@@ -47,11 +47,11 @@ while not btn.down:
     while STATE == 0:
         if clL.value() <= 20 and clR.value() <= 20:
             STATE = 1
-        if clL.value() <= 20 and clR.value() >= 40:
-            mL.duty_cycle_sp = 0
-        if clL.value() >= 40 and clR.value() <= 20:
-            mR.duty_cycle_sp = 0
-        if clL.value() >= 40 and clR.value() >= 40:
+        if clL.value() <= 60 <= clR.value():
+            mL.duty_cycle_sp = BASE_SPEED / 2
+        if clL.value() >= 60 >= clR.value():
+            mR.duty_cycle_sp = BASE_SPEED / 2
+        if clL.value() >= 60 and clR.value() >= 60:
             mL.duty_cycle_sp = BASE_SPEED
             mR.duty_cycle_sp = BASE_SPEED
     if clL.value() >= 60 and clR.value() >= 60 and STATE == 1:
@@ -71,7 +71,6 @@ while not btn.down:
             mL.duty_cycle_sp = BASE_SPEED
             mR.duty_cycle_sp = BASE_SPEED
             STATE = 0
-
 
 '''
 while not btn.down:
