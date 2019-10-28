@@ -67,11 +67,14 @@ def find_direction_index(direction):
 
 def increment_counter():
     global counter_index
-    if counter_index + 1 < len(solution):
-        counter_index += 1
+    global finished
+    counter_index += 1
+    if counter_index < len(solution):
+        print('If')
+
     else:
-        mL.stop()
-        mR.stop()
+        print('Else')
+        finished = True
 
 
 DIRECTIONS = ['u', 'r', 'd', 'l']
@@ -82,48 +85,57 @@ DIRECTIONS = ['u', 'r', 'd', 'l']
 #             'U', 'l', 'u', 'R', 'R', 'd', 'r', 'U', 'U', 'U', 'r', 'u', 'L', 'd', 'd', 'd', 'd', 'l', 'l', 'd',
 #             'd', 'd', 'r', 'r', 'u', 'L', 'd', 'l', 'U', 'U', 'U', 'l', 'u', 'R', 'R', 'd', 'r', 'U', 'U', 'U',
 #             'r', 'u', 'u', 'L', 'L', 'L', 'r', 'D', 'R', 'u', 'r', 'D']
-solution = ['L', 'd']
+solution = ['r', 'u', 'r', 'd', 'l', 'l', 'l']
 
 STATE = 0
 
-current_direction = 'u'
+current_direction = 'd'
 counter_index = 0
 
 mL.duty_cycle_sp = BASE_SPEED
 mR.duty_cycle_sp = BASE_SPEED
 on_line = False
 direction = -1
+finished = False
 
-while not btn.down:
+while not finished:
     while STATE == 0:
         if clL.value() <= 20 and clR.value() <= 20:
+            mL.duty_cycle_sp = BASE_SPEED
+            mR.duty_cycle_sp = BASE_SPEED
             STATE = 1
         if clL.value() <= 60 <= clR.value():
             mL.duty_cycle_sp = TURN_SPEED
-        if clL.value() >= 60 >= clR.value():
+            mR.duty_cycle_sp = BASE_SPEED
+        elif clL.value() >= 60 >= clR.value():
             mR.duty_cycle_sp = TURN_SPEED
-        if clL.value() >= 60 and clR.value() >= 60:
+            mL.duty_cycle_sp = BASE_SPEED
+        elif clL.value() >= 60 and clR.value() >= 60:
             mL.duty_cycle_sp = BASE_SPEED
             mR.duty_cycle_sp = BASE_SPEED
     if clL.value() >= 60 and clR.value() >= 60 and STATE == 1:
         # mL.duty_cycle_sp = BASE_SPEED
         # mR.duty_cycle_sp = -20
         direction = calculate_direction(solution[counter_index])
+        print(solution[counter_index])
         increment_counter()
         STATE = 2
     while STATE == 2:
         print('commencing turning')
         if direction == 0:
+            mR.duty_cycle_sp = BASE_SPEED
+            mL.duty_cycle_sp = BASE_SPEED
             STATE = 0
         elif direction == 1:
             # do nothing
             print('should turn around')
         elif direction == 2:
+            print('Direction = 2')
             STATE = 3
             mL.duty_cycle_sp = TURN_SPEED
+            mR.duty_cycle_sp = BASE_SPEED
             while STATE == 3:
                 if clL.value() <= 20:
-                    print('left sensor black')
                     on_line = True
                 if on_line is True and clL.value() >= 60:
                     print('passed line')
@@ -131,12 +143,13 @@ while not btn.down:
                     mL.duty_cycle_sp = BASE_SPEED
                     mR.duty_cycle_sp = BASE_SPEED
                     STATE = 0
-        elif direction==3:
+        elif direction == 3:
+            print('Direction = 3')
             STATE = 3
             mR.duty_cycle_sp = TURN_SPEED
+            mL.duty_cycle_sp = BASE_SPEED
             while STATE == 3:
                 if clR.value() <= 20:
-                    print('right sensor black')
                     on_line = True
                 if on_line is True and clR.value() >= 60:
                     print('passed line')
