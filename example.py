@@ -65,6 +65,15 @@ def find_direction_index(direction):
         index += 1
 
 
+def increment_counter():
+    global counter_index
+    if counter_index + 1 < len(solution):
+        counter_index += 1
+    else:
+        mL.stop()
+        mR.stop()
+
+
 DIRECTIONS = ['u', 'r', 'd', 'l']
 
 # solution = ['L', 'd', 'l', 'l', 'l', 'u', 'u', 'u', 'u', 'R', 'R', 'd', 'r', 'U', 'U', 'U', 'U', 'd', 'd', 'd',
@@ -78,10 +87,12 @@ solution = ['L', 'd']
 STATE = 0
 
 current_direction = 'u'
+counter_index = 0
 
 mL.duty_cycle_sp = BASE_SPEED
 mR.duty_cycle_sp = BASE_SPEED
 on_line = False
+direction = -1
 
 while not btn.down:
     while STATE == 0:
@@ -95,20 +106,53 @@ while not btn.down:
             mL.duty_cycle_sp = BASE_SPEED
             mR.duty_cycle_sp = BASE_SPEED
     if clL.value() >= 60 and clR.value() >= 60 and STATE == 1:
-        mL.duty_cycle_sp = BASE_SPEED
-        mR.duty_cycle_sp = -20
+        # mL.duty_cycle_sp = BASE_SPEED
+        # mR.duty_cycle_sp = -20
+        direction = calculate_direction(solution[counter_index])
+        increment_counter()
         STATE = 2
     while STATE == 2:
-        print('turning')
-        if clR.value() <= 20:
-            print('right sensor black')
-            on_line = True
-        if on_line is True and clR.value() >= 60:
-            print('Passed line')
-            on_line = False
-            mL.duty_cycle_sp = BASE_SPEED
-            mR.duty_cycle_sp = BASE_SPEED
+        print('commencing turning')
+        if direction == 0:
             STATE = 0
+        elif direction == 1:
+            # do nothing
+            print('should turn around')
+        elif direction == 2:
+            STATE = 3
+            mL.duty_cycle_sp = TURN_SPEED
+            while STATE == 3:
+                if clL.value() <= 20:
+                    print('left sensor black')
+                    on_line = True
+                if on_line is True and clL.value() >= 60:
+                    print('passed line')
+                    on_line = False
+                    mL.duty_cycle_sp = BASE_SPEED
+                    mR.duty_cycle_sp = BASE_SPEED
+                    STATE = 0
+        elif direction==3:
+            STATE = 3
+            mR.duty_cycle_sp = TURN_SPEED
+            while STATE == 3:
+                if clR.value() <= 20:
+                    print('right sensor black')
+                    on_line = True
+                if on_line is True and clR.value() >= 60:
+                    print('passed line')
+                    on_line = False
+                    mL.duty_cycle_sp = BASE_SPEED
+                    mR.duty_cycle_sp = BASE_SPEED
+                    STATE = 0
+        # if clR.value() <= 20:
+        #     print('right sensor black')
+        #     on_line = True
+        # if on_line is True and clR.value() >= 60:
+        #     print('Passed line')
+        #     on_line = False
+        #     mL.duty_cycle_sp = BASE_SPEED
+        #     mR.duty_cycle_sp = BASE_SPEED
+        #     STATE = 0
 
 print('Program finishing')
 mL.duty_cycle_sp = 0
