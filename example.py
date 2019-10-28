@@ -8,7 +8,7 @@ mR = ev3.LargeMotor('outB')
 THRESHOLD_LEFT = 30
 THRESHOLD_RIGHT = 350
 
-BASE_SPEED = 15
+BASE_SPEED = 25
 TURN_SPEED = 80
 
 clL = ev3.ColorSensor('in1')
@@ -48,9 +48,9 @@ while not btn.down:
         if clL.value() <= 20 and clR.value() <= 20:
             STATE = 1
         if clL.value() <= 20 and clR.value() >= 40:
-            mL.duty_cycle_sp = BASE_SPEED / 2
+            mL.duty_cycle_sp = 0
         if clL.value() >= 40 and clR.value() <= 20:
-            mR.duty_cycle_sp = BASE_SPEED / 2
+            mR.duty_cycle_sp = 0
         if clL.value() >= 40 and clR.value() >= 40:
             mL.duty_cycle_sp = BASE_SPEED
             mR.duty_cycle_sp = BASE_SPEED
@@ -58,10 +58,6 @@ while not btn.down:
         mL.duty_cycle_sp = BASE_SPEED
         mR.duty_cycle_sp = -10
         STATE = 2
-    # while clL.value() <= 20 and clR.value() <= 20:
-    #     print('On line')
-    # turning = True
-    # clL.value() >= 50 and clR.value() >= 50 and
     while STATE == 2:
 
         print('turning')
