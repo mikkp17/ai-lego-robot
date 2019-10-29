@@ -8,9 +8,8 @@ mR = ev3.LargeMotor('outB')
 THRESHOLD_LEFT = 30
 THRESHOLD_RIGHT = 350
 
-BASE_SPEED = 30
-TURN_SPEED = -10
-
+BASE_SPEED = 100
+TURN_SPEED = -30
 clL = ev3.ColorSensor('in1')
 clR = ev3.ColorSensor('in2')
 clL.mode = 'COL-REFLECT'
@@ -85,11 +84,11 @@ DIRECTIONS = ['u', 'r', 'd', 'l']
 #             'U', 'l', 'u', 'R', 'R', 'd', 'r', 'U', 'U', 'U', 'r', 'u', 'L', 'd', 'd', 'd', 'd', 'l', 'l', 'd',
 #             'd', 'd', 'r', 'r', 'u', 'L', 'd', 'l', 'U', 'U', 'U', 'l', 'u', 'R', 'R', 'd', 'r', 'U', 'U', 'U',
 #             'r', 'u', 'u', 'L', 'L', 'L', 'r', 'D', 'R', 'u', 'r', 'D']
-solution = ['r', 'u', 'r', 'd', 'l', 'l', 'l']
+solution = ['u', 'l', 'l', 'l']
 
 STATE = 0
 
-current_direction = 'd'
+current_direction = 'l'
 counter_index = 0
 
 mL.duty_cycle_sp = BASE_SPEED
