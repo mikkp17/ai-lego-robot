@@ -1,27 +1,26 @@
 import signal
 
 import ev3dev.ev3 as ev3
-
 btn = ev3.Button()
+
 mL = ev3.LargeMotor('outA')
 mR = ev3.LargeMotor('outB')
-THRESHOLD_LEFT = 30
-THRESHOLD_RIGHT = 350
-
-BASE_SPEED = 100
-TURN_SPEED = -30
-clL = ev3.ColorSensor('in1')
-clR = ev3.ColorSensor('in2')
-clL.mode = 'COL-REFLECT'
-
-clR.mode = 'COL-REFLECT'
-assert clL.connected, "ColorSensorLeft(ColorSensor) is not connected"
-assert clR.connected, "ColorSensorRight(ColorSensor) is not connected"
-
 mL.run_direct()
 mR.run_direct()
 mL.polarity = "normal"
 mR.polarity = "normal"
+speedL = mL.duty_cycle_sp
+speedR = mR.duty_cycle_sp
+
+BASE_SPEED = 30
+TURN_SPEED = -10
+
+sL = ev3.ColorSensor('in1')
+sR = ev3.ColorSensor('in2')
+sL.mode = 'COL-REFLECT'
+sR.mode = 'COL-REFLECT'
+assert sL.connected, "ColorSensorLeft(ColorSensor) is not connected"
+assert sR.connected, "ColorSensorRight(ColorSensor) is not connected"
 
 
 def signal_handler(sig, frame):
@@ -99,22 +98,20 @@ finished = False
 
 while not finished:
     while STATE == 0:
-        if clL.value() <= 20 and clR.value() <= 20:
+        if sL.value() <= 20 and sR.value() <= 20:
             mL.duty_cycle_sp = BASE_SPEED
             mR.duty_cycle_sp = BASE_SPEED
             STATE = 1
-        if clL.value() <= 60 <= clR.value():
+        if sL.value() <= 60 <= sR.value():
             mL.duty_cycle_sp = TURN_SPEED
             mR.duty_cycle_sp = BASE_SPEED
-        elif clL.value() >= 60 >= clR.value():
+        elif sL.value() >= 60 >= sR.value():
             mR.duty_cycle_sp = TURN_SPEED
             mL.duty_cycle_sp = BASE_SPEED
-        elif clL.value() >= 60 and clR.value() >= 60:
+        elif sL.value() >= 60 and sR.value() >= 60:
             mL.duty_cycle_sp = BASE_SPEED
             mR.duty_cycle_sp = BASE_SPEED
-    if clL.value() >= 60 and clR.value() >= 60 and STATE == 1:
-        # mL.duty_cycle_sp = BASE_SPEED
-        # mR.duty_cycle_sp = -20
+    if sL.value() >= 60 and sR.value() >= 60 and STATE == 1:
         direction = calculate_direction(solution[counter_index])
         print(solution[counter_index])
         increment_counter()
@@ -134,9 +131,9 @@ while not finished:
             mL.duty_cycle_sp = TURN_SPEED
             mR.duty_cycle_sp = BASE_SPEED
             while STATE == 3:
-                if clL.value() <= 20:
+                if sL.value() <= 20:
                     on_line = True
-                if on_line is True and clL.value() >= 60:
+                if on_line is True and sL.value() >= 60:
                     print('passed line')
                     on_line = False
                     mL.duty_cycle_sp = BASE_SPEED
@@ -148,38 +145,16 @@ while not finished:
             mR.duty_cycle_sp = TURN_SPEED
             mL.duty_cycle_sp = BASE_SPEED
             while STATE == 3:
-                if clR.value() <= 20:
+                if sR.value() <= 20:
                     on_line = True
-                if on_line is True and clR.value() >= 60:
+                if on_line is True and sR.value() >= 60:
                     print('passed line')
                     on_line = False
                     mL.duty_cycle_sp = BASE_SPEED
                     mR.duty_cycle_sp = BASE_SPEED
                     STATE = 0
-        # if clR.value() <= 20:
-        #     print('right sensor black')
-        #     on_line = True
-        # if on_line is True and clR.value() >= 60:
-        #     print('Passed line')
-        #     on_line = False
-        #     mL.duty_cycle_sp = BASE_SPEED
-        #     mR.duty_cycle_sp = BASE_SPEED
-        #     STATE = 0
 
 print('Program finishing')
 mL.duty_cycle_sp = 0
 mR.duty_cycle_sp = 0
 exit()
-
-'''    if cl1.value() <= 20 and cl2.value() <= 20:
-        if LINE_COUNTER > 0:
-            mA.duty_cycle_sp = 0
-            mB.duty_cycle_sp = 0
-            exit()
-
-        if LINE_COUNTER <= 0:
-            while cl1.value() <= 40 or cl2.value() <= 40:
-            # keep running while on black line
-                print()
-            LINE_COUNTER += 1
-'''
