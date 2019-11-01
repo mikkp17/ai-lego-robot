@@ -1,3 +1,4 @@
+# File to open competition_map and populate an array
 file = open("competition_map.txt", 'r')
 if file.mode == 'r':
     file_content = file.readlines()
