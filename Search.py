@@ -88,27 +88,37 @@ def do_action(state, action):
 
                 if action.lower() == 'u':
                     if pushing:
-                        print('Pushing crate up')
-                    else:
-                        print('Going up')
+                        old_crate_pos = state[i - 2][j]
+                        state[i - 2][j] = 'J'
+                        state[i - 1][j] = old_crate_pos
+                    old_pos = state[i - 1][j]
+                    state[i - 1][j] = 'M'
+                    state[i][j] = old_pos
                 if action.lower() == 'r':
                     if pushing:
-                        print('Pushing crate right')
-                    else:
-                        print('Going right')
+                        old_crate_pos = state[i][j + 2]
+                        state[i][j + 2] = 'J'
+                        state[i][j + 1] = old_crate_pos
+                    old_pos = state[i][j + 1]
+                    state[i][j + 1] = 'M'
+                    state[i][j] = old_pos
                 if action.lower() == 'd':
                     if pushing:
-                        print('Pushing crate down')
-                    else:
-                        old_pos = state[i+1][j]
-                        state[i+1][j] = 'M'
-                        state[i][j] = old_pos
-                        return state
+                        old_crate_pos = state[i + 2][j]
+                        state[i + 2][j] = 'J'
+                        state[i + 1][j] = old_crate_pos
+                    old_pos = state[i + 1][j]
+                    state[i + 1][j] = 'M'
+                    state[i][j] = old_pos
                 if action.lower() == 'l':
                     if pushing:
-                        print('Pushing crate left')
-                    else:
-                        print('Going left')
+                        old_crate_pos = state[i][j - 2]
+                        state[i][j - 2] = 'J'
+                        state[i][j - 1] = old_crate_pos
+                    old_pos = state[i][j - 1]
+                    state[i][j - 1] = 'M'
+                    state[i][j] = old_pos
+                return state
             j += 1
         i += 1
     return state
@@ -148,10 +158,18 @@ def print_map(state):
 
 
 if __name__ == '__main__':
-    game_map = generate_map()
-    print_map(game_map)
+    state = generate_map()
+    print_map(state)
     # Testing coordinates:
     # print(game_map[8][5])
 
-    state = do_action(game_map, 'd')
+    state = do_action(state, 'L')
+    print_map(state)
+    state = do_action(state, 'd')
+    print_map(state)
+    state = do_action(state, 'l')
+    print_map(state)
+    state = do_action(state, 'l')
+    print_map(state)
+    state = do_action(state, 'U')
     print_map(state)
