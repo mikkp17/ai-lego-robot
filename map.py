@@ -13,7 +13,7 @@ if file.mode == 'r':
         arr = list(file_content[i].strip())
         comp_map[i] = arr
         i += 1
-
+    # Printing the array
     for lines in comp_map:
         print(lines)
 
