@@ -1,7 +1,12 @@
-import copy
+import copy  # Used to deepcopy our 2D array of state
 
 
 class Node:
+    """A Node is a representation of an object in the tree. In Sokoban, each Node represents a state of the game,
+    and each of those nodes holds information about their parent nodes (previous moves) as well as what action they
+    did to get there from their parent node. A Node also keeps track of how expensive the path has been so far,
+    and how deep down the tree it is (how many moves it took to get there). """
+
     def __init__(self, state, parent=None, action=None, path_cost=0):
         """Create a search tree Node, derived from a parent by an action."""
         self.state = state
@@ -15,8 +20,8 @@ class Node:
     def __repr__(self):
         return "<Node {}>".format(self.state)
 
-    def solution(self):
-        """Returns the list of actions to go from root node to current node"""
+    def get_action(self):
+        """Returns the action of this Node (Can be none)"""
         return self.action
 
     def path(self):
@@ -29,14 +34,28 @@ class Node:
 
 
 def generic_search():
-    fringe = []
+    """The generic search algorithm. The algorithm starts with an initial state and builds a fringe, and then for
+    every item in the fringe, it will explore child nodes until a solution is found."""
+
+    # The initial node gets built from a map read from a text file
     initial_node = Node(generate_map())
+
+    # The initial node gets inserted into the fringe to start the algorithm
+    fringe = []
     fringe = insert_into(initial_node, fringe)
+
+    # As long as there are items in the fringe, keep searching for a solution
     while fringe is not None:
-        top_node = remove_first(fringe)
-        if goal_reached(top_node.state):
-            return top_node.path()
-        children = expand(top_node)
+
+        # Get the first node from the fringe
+        node = remove_first(fringe)
+
+        # Check if the nodes state is equal to the goal state
+        if goal_reached(node.state):
+            return node.path()
+
+        # Find the children of the node and store them in the fringe
+        children = expand(node)
         fringe = insert_all(children, fringe)
 
 
@@ -61,7 +80,7 @@ def insert_into(node, queue):
 def insert_all(first_list, second_list):
     """Inserts the first list into the second list"""
     second_list.extend(first_list)
-    return queue
+    return second_list
 
 
 def remove_first(queue):
@@ -185,7 +204,7 @@ def run():
         print_map(node.state)
     print('Solution: ')
     for node in path[1:]:
-        print(node.solution(), end='')
+        print(node.get_action(), end='')
 
 
 if __name__ == '__main__':
