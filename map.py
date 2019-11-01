@@ -3,20 +3,20 @@ file = open("competition_map.txt", 'r')
 if file.mode == 'r':
     file_content = file.readlines()
 
-    # Make an empty 2d array
+    # Make a 2d array and populate with 0
     width = len(file_content[0])
     height = len(file_content)
-    comp_map = [[0 for x in range(width)] for y in range(height)]
+    competition_map = [[0 for x in range(width)] for y in range(height)]
 
-    # Populate the comp_map with actual competition map
-    i = 0
-    while i < len(file_content):
-        arr = list(file_content[i].strip())
-        comp_map[i] = arr
-        i += 1
+    # Populate the competition_map with actual competition map
+    counter = 0
+    while counter < len(file_content):
+        array = list(file_content[counter].strip())
+        competition_map[counter] = array
+        counter += 1
     # Printing the array
-    for lines in comp_map:
-        print(lines)
+    for line in competition_map:
+        print(line)
 
 else:
     print("must be in read mode")
