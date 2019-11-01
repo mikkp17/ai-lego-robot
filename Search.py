@@ -75,6 +75,43 @@ def allowed_actions(state):
 
 def do_action(state, action):
     """Executes a given action on a given state, returning the resulting state"""
+    i = 0
+    for line in state:
+        j = 0
+        for char in line:
+            if char == 'M':
+                print('\n\nFound M at [' + str(i) + '][' + str(j) + '], now performing action: ' + action)
+
+                pushing = True
+                if action.islower():
+                    pushing = False
+
+                if action.lower() == 'u':
+                    if pushing:
+                        print('Pushing crate up')
+                    else:
+                        print('Going up')
+                if action.lower() == 'r':
+                    if pushing:
+                        print('Pushing crate right')
+                    else:
+                        print('Going right')
+                if action.lower() == 'd':
+                    if pushing:
+                        print('Pushing crate down')
+                    else:
+                        old_pos = state[i+1][j]
+                        state[i+1][j] = 'M'
+                        state[i][j] = old_pos
+                        return state
+                if action.lower() == 'l':
+                    if pushing:
+                        print('Pushing crate left')
+                    else:
+                        print('Going left')
+            j += 1
+        i += 1
+    return state
 
 
 def goal_reached(state):
@@ -105,7 +142,7 @@ def generate_map():
 
 def print_map(state):
     """Prints the current state of the map"""
-    for array in current_map:
+    for array in state:
         for char in array:
             print(' ' + char, end='')
 
@@ -114,4 +151,7 @@ if __name__ == '__main__':
     game_map = generate_map()
     print_map(game_map)
     # Testing coordinates:
-    print(game_map[8][5])
+    # print(game_map[8][5])
+
+    state = do_action(game_map, 'd')
+    print_map(state)
