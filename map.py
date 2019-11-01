@@ -11,8 +11,7 @@ if file.mode == 'r':
     # Populate the competition_map with actual competition map
     counter = 0
     while counter < len(file_content):
-        array = list(file_content[counter].strip())
-        competition_map[counter] = array
+        competition_map[counter] = list(file_content[counter].strip())
         counter += 1
     # Printing the array
     for line in competition_map:

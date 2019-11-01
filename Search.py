@@ -30,7 +30,7 @@ class Node:
 
 def generic_search():
     fringe = []
-    initial_node = Node(get_initial_state)
+    initial_node = Node(generate_map())
     fringe = insert_into(initial_node, fringe)
     while fringe is not None:
         node = remove_first(fringe)
@@ -74,17 +74,11 @@ def allowed_actions(state):
 
 
 def do_action(state, action):
-    """Execuses a given action on a given state, returning the resulting state"""
-    raise NotImplementedError
+    """Executes a given action on a given state, returning the resulting state"""
 
 
 def goal_reached(state):
     """Returns true if the current state is the goal state, otherwise false"""
-    raise NotImplementedError
-
-
-def get_initial_state():
-    """Returns the initial state of the game board"""
     raise NotImplementedError
 
 
@@ -95,5 +89,29 @@ def run():
         node.display()
 
 
+def generate_map():
+    """Generates the initial map from a supplied text file and returns it as a 2D array"""
+    file = open("competition_map.txt")
+    outer_array = []
+    for line in file:
+        line.strip()
+        inner_array = []
+        for char in line:
+            inner_array.append(char)
+        outer_array.append(inner_array)
+    file.close()
+    return outer_array
+
+
+def print_map(state):
+    """Prints the current state of the map"""
+    for array in current_map:
+        for char in array:
+            print(' ' + char, end='')
+
+
 if __name__ == '__main__':
-    run()
+    game_map = generate_map()
+    print_map(game_map)
+    # Testing coordinates:
+    print(game_map[8][5])
