@@ -172,7 +172,7 @@ def find_current_pos(state):
 
 def goal_reached(state):
     """Returns true if the current state is the goal state, otherwise false"""
-    if state[7][2] == 'J' and state[8][2] == 'M':
+    if state[7][2] == 'J' and state[9][2] == 'M':
         return True
 
 
