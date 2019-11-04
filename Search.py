@@ -89,7 +89,8 @@ def remove_first(queue):
 
 
 def allowed_actions(state):
-    """Returns a list of allowed actions from current state"""
+    """Returns a list of allowed actions from current state
+    MAKE THIS WORK WITH G AS WELL"""
     allowed = []
     i, j = find_current_pos(state)
 
@@ -117,7 +118,8 @@ def allowed_actions(state):
 
 
 def do_action(state, action):
-    """Executes a given action on a given state, returning the resulting state"""
+    """Executes a given action on a given state, returning the resulting state
+    MAKE THIS WORK WITH G AS WELL"""
     i, j = find_current_pos(state)
     # print('\n\nFound M at [' + str(i) + '][' + str(j) + '], now performing action: ' + action)
     pushing = True
