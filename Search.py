@@ -33,7 +33,7 @@ class Node:
         return list(reversed(path_back))
 
 
-def generic_search():
+def search():
     """The generic search algorithm. The algorithm starts with an initial state and builds a fringe, and then for
     every item in the fringe, it will explore child nodes until a solution is found."""
     # The initial node gets built from a map read from a text file
@@ -56,6 +56,11 @@ def generic_search():
 
         # Find the children of the node and store them in the fringe
         children = expand(node, goal_positions)
+        '''
+        Make this list a priority queue based on h(n) to achieve A* search.
+        h(n) is distance between crates and goal, if crates are closer, expand those nodes first.
+        Can also sort nodes by distance from player to a crate with a smaller coefficient to achieve even smarter search
+        '''
         fringe = insert_all(children, fringe)
 
 
@@ -206,7 +211,7 @@ def print_map(state):
 
 
 def run():
-    path = generic_search()
+    path = search()
     for node in path:
         print_map(node.state)
     print('Solution: ')
