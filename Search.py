@@ -1,4 +1,6 @@
 import copy  # Used to deepcopy our 2D array of state
+import heapq
+import sys
 
 
 class Node:
@@ -14,11 +16,28 @@ class Node:
         self.action = action
         self.path_cost = path_cost
         self.depth = 0
+        self.manhattan_distance = -1
+        self.boxes_not_in_goal = -1
         if parent:
             self.depth = parent.depth + 1
 
+    def __lt__(self, other):
+        return (self.boxes_not_in_goal, self.manhattan_distance) < (other.boxes_not_in_goal, other.manhattan_distance)
+
     def __repr__(self):
         return "<Node {}>".format(self.state)
+
+    def set_manhattan_distance(self, distance):
+        self.manhattan_distance = distance
+
+    def get_manhattan_distance(self):
+        return self.manhattan_distance
+
+    def set_boxes_not_in_goal(self, boxes):
+        self.boxes_not_in_goal = boxes
+
+    def get_boxes_not_in_goal(self):
+        return self.boxes_not_in_goal
 
     def get_action(self):
         """Returns the action of this Node (Can be none)"""
@@ -38,33 +57,40 @@ def search():
     every item in the fringe, it will explore child nodes until a solution is found."""
     # The initial node gets built from a map read from a text file
     initial_node = Node(generate_map())
+    crate_positions = find_crate_positions(initial_node.state)
     goal_positions = find_goal_positions(initial_node.state)
+    initial_node.set_manhattan_distance(calculate_manhattan_distance(crate_positions, goal_positions, initial_node))
+    initial_node.set_boxes_not_in_goal(calculate_boxes_not_in_goal(crate_positions, goal_positions, initial_node))
+    visited = []
 
     # The initial node gets inserted into the fringe to start the algorithm
     fringe = []
-    fringe = insert_into(initial_node, fringe)
+    heapq.heapify(fringe)
+    heapq.heappush(fringe, initial_node)
 
     # As long as there are items in the fringe, keep searching for a solution
     while fringe is not None:
-
         # Get the first node from the fringe
-        node = remove_first(fringe)
-
+        node = heapq.heappop(fringe)
         # Check if the nodes state is equal to the goal state
         if goal_reached(node.state, goal_positions):
             return node.path()
-
         # Find the children of the node and store them in the fringe
-        children = expand(node, goal_positions)
-        '''
-        Make this list a priority queue based on h(n) to achieve A* search.
-        h(n) is distance between crates and goal, if crates are closer, expand those nodes first.
-        Can also sort nodes by distance from player to a crate with a smaller coefficient to achieve even smarter search
-        '''
-        fringe = insert_all(children, fringe)
+        children = expand(node, goal_positions, visited)
+        for child in children:
+            child.set_manhattan_distance(calculate_manhattan_distance(find_crate_positions(child.state), goal_positions, child))
+            child.set_boxes_not_in_goal(calculate_boxes_not_in_goal(find_crate_positions(child.state), goal_positions, child))
+            heapq.heappush(fringe, child)
+
+    length = len(fringe)
+    for i in range(0, length):
+        test = heapq.heappop(fringe)
+        print(test.get_manhattan_distance())
+        print(test.get_boxes_not_in_goal())
+        print_map(test.state)
 
 
-def expand(parent, goal_positions):
+def expand(parent, goal_positions, visited):
     """Expands the current node and returns a list of children (successors)"""
     children = []
     actions = allowed_actions(parent.state)
@@ -72,8 +98,38 @@ def expand(parent, goal_positions):
         parent_state = copy.deepcopy(parent.state)
         next_state = do_action(parent_state, action, goal_positions)
         child = Node(next_state, parent, action, parent.path_cost + 1)
-        children = insert_into(child, children)
+        if not is_visited(child, visited):
+            children = insert_into(child, children)
     return children
+
+
+def calculate_manhattan_distance(crate_pos, goal_pos, node):
+    distance = 0
+    for crate in crate_pos.values():
+        minimum_distance = sys.maxsize
+        for goal in goal_pos.values():
+            x_crate, y_crate = crate
+            x_goal, y_goal = goal
+            if node.state[x_goal][y_goal] == 'J':
+                if x_crate != x_goal or y_crate != y_goal:
+                    continue
+            manhattan_distance = abs(x_crate - x_goal) + abs(y_crate - y_goal)
+            if manhattan_distance < minimum_distance:
+                minimum_distance = manhattan_distance
+        distance += minimum_distance
+    distance += node.path_cost
+    return distance
+
+
+def calculate_boxes_not_in_goal(crate_pos, goal_pos, node):
+    boxes_not_in_goal = len(find_crate_positions(node.state))
+    for crate in crate_pos.values():
+        for goal in goal_pos.values():
+            crate_x, crate_y = crate
+            goal_x, goal_y = goal
+            if crate_x == goal_x and crate_y == goal_y:
+                boxes_not_in_goal -= 1
+    return boxes_not_in_goal
 
 
 def insert_into(node, queue):
@@ -97,7 +153,7 @@ def allowed_actions(state):
     """Returns a list of allowed actions from current state
     MAKE THIS WORK WITH G AS WELL"""
     allowed = []
-    i, j = find_current_pos(state)
+    i, j = find_current_robot_pos(state)
 
     if state[i - 1][j] == '.' or state[i - 1][j] == 'G':
         allowed.append('u')
@@ -125,7 +181,7 @@ def allowed_actions(state):
 def do_action(state, action, goal_positions):
     """Executes a given action on a given state, returning the resulting state
     MAKE THIS WORK WITH G AS WELL"""
-    i, j = find_current_pos(state)
+    i, j = find_current_robot_pos(state)
     # print('\n\nFound M at [' + str(i) + '][' + str(j) + '], now performing action: ' + action)
     pushing = True
     if action.islower():
@@ -153,7 +209,7 @@ def do_action(state, action, goal_positions):
     return state
 
 
-def find_current_pos(state):
+def find_current_robot_pos(state):
     i = 0
     for line in state:
         j = 0
@@ -163,6 +219,19 @@ def find_current_pos(state):
             j += 1
         i += 1
     return -1, -1
+
+
+def find_crate_positions(state):
+    crate_positions = {}
+    i = 0
+    for line in state:
+        j = 0
+        for char in line:
+            if char == 'J':
+                crate_positions[len(crate_positions)] = i, j
+            j += 1
+        i += 1
+    return crate_positions
 
 
 def find_goal_positions(state):
@@ -176,6 +245,16 @@ def find_goal_positions(state):
             j += 1
         i += 1
     return goal_positions
+
+
+def is_visited(node, visited):
+    if visited is not None:
+        for visited_node in visited:
+            if find_current_robot_pos(visited_node.state) == find_current_robot_pos(
+                    node.state) and find_crate_positions(visited_node.state) == find_crate_positions(node.state):
+                return True
+    visited.append(node)
+    return False
 
 
 def goal_reached(state, goal_positions):
@@ -217,6 +296,9 @@ def run():
     print('Solution: ')
     for node in path[1:]:
         print(node.get_action(), end='')
+    print()
+    print("Total amount of moves: ", end="")
+    print(len(path))
 
 
 if __name__ == '__main__':
