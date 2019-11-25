@@ -72,6 +72,8 @@ def search():
     while fringe is not None:
         # Get the first node from the fringe
         node = heapq.heappop(fringe)
+        # print_map(node.state)
+        # print(node.get_manhattan_distance())
         # Check if the nodes state is equal to the goal state
         if goal_reached(node.state, goal_positions):
             return node.path()
@@ -107,12 +109,10 @@ def calculate_manhattan_distance(crate_pos, goal_pos, node):
     distance = 0
     for crate in crate_pos.values():
         minimum_distance = sys.maxsize
+        x_crate, y_crate = crate
         for goal in goal_pos.values():
-            x_crate, y_crate = crate
             x_goal, y_goal = goal
-            print(node.state[x_goal][y_goal])
             if node.state[x_goal][y_goal] == 'J':
-                print("In xy goal state")
                 if x_crate != x_goal or y_crate != y_goal:
                     continue
             manhattan_distance = abs(x_crate - x_goal) + abs(y_crate - y_goal)

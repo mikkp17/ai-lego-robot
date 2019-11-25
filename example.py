@@ -123,7 +123,7 @@ while not finished:
             mL.duty_cycle_sp = BASE_SPEED
             STATE = 0
         elif direction == 1:
-            # do nothing
+            # turn around
             print('should turn around')
         elif direction == 2:
             print('Direction = 2')
