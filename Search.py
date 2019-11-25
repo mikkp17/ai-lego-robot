@@ -110,7 +110,9 @@ def calculate_manhattan_distance(crate_pos, goal_pos, node):
         for goal in goal_pos.values():
             x_crate, y_crate = crate
             x_goal, y_goal = goal
+            print(node.state[x_goal][y_goal])
             if node.state[x_goal][y_goal] == 'J':
+                print("In xy goal state")
                 if x_crate != x_goal or y_crate != y_goal:
                     continue
             manhattan_distance = abs(x_crate - x_goal) + abs(y_crate - y_goal)
