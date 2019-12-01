@@ -68,7 +68,7 @@ def increment_counter():
     counter_index += 1
     print(counter_index)
     print(len(solution))
-    if counter_index >= len(solution):
+    if counter_index > len(solution):
         finished = True
 
 
