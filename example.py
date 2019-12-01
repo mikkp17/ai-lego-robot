@@ -85,13 +85,22 @@ mR.duty_cycle_sp = BASE_SPEED
 on_line = False
 direction = -1
 finished = False
+checked = False
 
 while not finished:
+    if checked is False:
+        direction = calculate_direction(solution[counter_index])
+        print(solution[counter_index])
+        increment_counter()
+        checked = True
     while STATE == 0:
         if sL.value() <= 20 and sR.value() <= 20:
             mL.duty_cycle_sp = BASE_SPEED
             mR.duty_cycle_sp = BASE_SPEED
-            STATE = 1
+            if direction == 1:
+                STATE = 2
+            else:
+                STATE = 1
         if sL.value() <= 60 <= sR.value():
             mL.duty_cycle_sp = TURN_SPEED
             mR.duty_cycle_sp = BASE_SPEED
@@ -102,12 +111,10 @@ while not finished:
             mL.duty_cycle_sp = BASE_SPEED
             mR.duty_cycle_sp = BASE_SPEED
     if sL.value() >= 60 and sR.value() >= 60 and STATE == 1:
-        direction = calculate_direction(solution[counter_index])
-        print(solution[counter_index])
-        increment_counter()
         STATE = 2
     while STATE == 2:
         print('commencing turning')
+        checked = False
         if direction == 0:
             mR.duty_cycle_sp = BASE_SPEED
             mL.duty_cycle_sp = BASE_SPEED
