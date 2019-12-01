@@ -93,7 +93,8 @@ def fix_solution(string):
 
 DIRECTIONS = ['u', 'r', 'd', 'l']
 
-solution_string = 'llllUdrruLdldlluRRRRRdrUUruulldRRdldlluluulldRurDDrdLLdlluRRRRRdrUUruulldRurDurrdLulldddllululDrdLdlluRRRRRdrUUdllulullDrddlluRRRRRdrU'
+solution_string = 'UUdr'
+# solution_string = 'llllUdrruLdldlluRRRRRdrUUruulldRRdldlluluulldRurDDrdLLdlluRRRRRdrUUruulldRurDurrdLulldddllululDrdLdlluRRRRRdrUUdllulullDrddlluRRRRRdrU'
 fixed_string = fix_solution(solution_string)
 print(fixed_string)
 # 'udrulll'
@@ -118,10 +119,15 @@ while True:
         break
     if checked is False:
         direction = calculate_direction(solution[counter_index])
+        print(solution[counter_index])
         increment_counter()
         checked = True
     while STATE == 0:
+        # if direction == 1:
+            # if sT.value() <= 50:
+            #     STATE = 2
         if sL.value() <= 20 and sR.value() <= 20:
+            print("crossed line")
             mL.duty_cycle_sp = BASE_SPEED
             mR.duty_cycle_sp = BASE_SPEED
             if direction == 1:
