@@ -104,3 +104,4 @@ venv.bak/
 # mypy
 .mypy_cache/
 /kode_til_robot/
+fixSolution.py
