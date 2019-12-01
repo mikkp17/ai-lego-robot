@@ -113,8 +113,22 @@ while not finished:
             mL.duty_cycle_sp = BASE_SPEED
             STATE = 0
         elif direction == 1:
-            # do nothing
-            print('should turn around')
+            # Turn around
+            mR.duty_cycle_sp = REVERSE_SPEED
+            mL.duty_cycle_sp = REVERSE_SPEED
+            print("backing up")
+            time.sleep(1)
+            STATE = 3
+            while STATE == 3:
+                mR.duty_cycle_sp = -30
+                mL.duty_cycle_sp = 30
+                if sR.value() <= 20:
+                    on_line = True
+                if on_line is True and sR.value() >= 60:
+                    on_line = False
+                    mR.duty_cycle_sp = BASE_SPEED
+                    mL.duty_cycle_sp = BASE_SPEED
+                    STATE = 0
         elif direction == 2:
             print('Direction = 2')
             STATE = 3
