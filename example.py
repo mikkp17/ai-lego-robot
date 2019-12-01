@@ -74,7 +74,7 @@ def increment_counter():
 
 DIRECTIONS = ['u', 'r', 'd', 'l']
 
-solution_string = 'ud'
+solution_string = 'uldr'
 # 'lllldlluRRUdRRRdrUUruulldRRdldlluLuulldRurDDullDRdRRRdrUUruurrdLulDulldRddlllldlluRRRRRdrUUdlllluurDldRRRdrU'
 solution = list(solution_string)
 STATE = 0
