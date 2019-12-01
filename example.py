@@ -24,6 +24,9 @@ sR.mode = 'COL-REFLECT'
 assert sL.connected, "ColorSensorLeft(ColorSensor) is not connected"
 assert sR.connected, "ColorSensorRight(ColorSensor) is not connected"
 
+import ev3dev.auto as auto
+sF = auto.LightSensor('in3')
+assert sF.connected, 'Is not connected'
 
 def signal_handler(sig, frame):
     print('Shutting down gracefully')
