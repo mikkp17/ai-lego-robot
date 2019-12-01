@@ -98,6 +98,7 @@ DIRECTIONS = ['u', 'r', 'd', 'l']
 
 solution_string = 'llllUdrruLdldlluRRRRRdrUUruulldRRdldlluluulldRurDDrdLLdlluRRRRRdrUUruulldRurDurrdLulldddllululDrdLdlluRRRRRdrUUdllulullDrddlluRRRRRdrU'
 fixed_string = fix_solution(solution_string)
+print(fixed_string)
 # 'udrulll'
 # 'lllldlluRRUdRRRdrUUruulldRRdldlluLuulldRurDDullDRdRRRdrUUruurrdLulDulldRddlllldlluRRRRRdrUUdlllluurDldRRRdrU'
 solution = list(fixed_string)
