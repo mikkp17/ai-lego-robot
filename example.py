@@ -66,8 +66,6 @@ def increment_counter():
     global counter_index
     global finished
     counter_index += 1
-    print(counter_index)
-    print(len(solution))
     if counter_index >= len(solution):
         finished = True
 
@@ -87,7 +85,10 @@ direction = -1
 finished = False
 checked = False
 
-while not finished:
+while True:
+    if finished:
+        direction = 1
+        checked = True
     if checked is False:
         direction = calculate_direction(solution[counter_index])
         print(solution[counter_index])
@@ -166,6 +167,8 @@ while not finished:
                     mL.duty_cycle_sp = BASE_SPEED
                     mR.duty_cycle_sp = BASE_SPEED
                     STATE = 0
+    if finished:
+        break
 
 print('Program finishing')
 mL.duty_cycle_sp = 0
