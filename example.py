@@ -72,11 +72,12 @@ def increment_counter():
 
 DIRECTIONS = ['u', 'r', 'd', 'l']
 
-solution_string = 'uldr'
+solution_string = 'llllUdrruLdldlluRRRRRdrUUruulldRRdldlluluulldRurDDrdLLdlluRRRRRdrUUruulldRurDurrdLulldddllululDrdLdlluRRRRRdrUUdllulullDrddlluRRRRRdrU'
+# 'udrulll'
 # 'lllldlluRRUdRRRdrUUruulldRRdldlluLuulldRurDDullDRdRRRdrUUruurrdLulDulldRddlllldlluRRRRRdrUUdlllluurDldRRRdrU'
 solution = list(solution_string)
 STATE = 0
-current_direction = 'u'
+current_direction = 'l'
 counter_index = 0
 mL.duty_cycle_sp = BASE_SPEED
 mR.duty_cycle_sp = BASE_SPEED
@@ -87,15 +88,11 @@ finished = False
 checked = False
 
 while True:
-    if finished:
-        print("Finished, breaking")
-        break
     if last_run:
-        print("In last run")
-        direction = 1
-        checked = True
-        finished = True
-        STATE = 2
+        mR.duty_cycle_sp = REVERSE_SPEED
+        mL.duty_cycle_sp = REVERSE_SPEED
+        time.sleep(1)
+        break
     if checked is False:
         direction = calculate_direction(solution[counter_index])
         increment_counter()
