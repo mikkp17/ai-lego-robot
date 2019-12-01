@@ -98,6 +98,8 @@ while not finished:
             mL.duty_cycle_sp = BASE_SPEED
             mR.duty_cycle_sp = BASE_SPEED
             if direction == 1:
+                mL.duty_cycle_sp = REVERSE_SPEED
+                mR.duty_cycle_sp = REVERSE_SPEED
                 STATE = 2
             else:
                 STATE = 1
@@ -121,8 +123,8 @@ while not finished:
             STATE = 0
         elif direction == 1:
             # Turn around
-            mR.duty_cycle_sp = REVERSE_SPEED
-            mL.duty_cycle_sp = REVERSE_SPEED
+            # mR.duty_cycle_sp = REVERSE_SPEED
+            # mL.duty_cycle_sp = REVERSE_SPEED
             print("backing up")
             time.sleep(1)
             STATE = 3
