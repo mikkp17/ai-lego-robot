@@ -88,12 +88,12 @@ checked = False
 
 while True:
     if last_run:
+        print("In last run")
         direction = 1
         checked = True
         finished = True
     if checked is False:
         direction = calculate_direction(solution[counter_index])
-        print(solution[counter_index])
         increment_counter()
         checked = True
     while STATE == 0:
@@ -101,8 +101,6 @@ while True:
             mL.duty_cycle_sp = BASE_SPEED
             mR.duty_cycle_sp = BASE_SPEED
             if direction == 1:
-                mL.duty_cycle_sp = REVERSE_SPEED
-                mR.duty_cycle_sp = REVERSE_SPEED
                 STATE = 2
             else:
                 STATE = 1
@@ -118,7 +116,6 @@ while True:
     if sL.value() >= 60 and sR.value() >= 60 and STATE == 1:
         STATE = 2
     while STATE == 2:
-        print('commencing turning')
         checked = False
         if direction == 0:
             mR.duty_cycle_sp = BASE_SPEED
@@ -126,9 +123,8 @@ while True:
             STATE = 0
         elif direction == 1:
             # Turn around
-            # mR.duty_cycle_sp = REVERSE_SPEED
-            # mL.duty_cycle_sp = REVERSE_SPEED
-            print("backing up")
+            mR.duty_cycle_sp = REVERSE_SPEED
+            mL.duty_cycle_sp = REVERSE_SPEED
             time.sleep(1)
             STATE = 3
             while STATE == 3:
@@ -142,7 +138,6 @@ while True:
                     mL.duty_cycle_sp = BASE_SPEED
                     STATE = 0
         elif direction == 2:
-            print('Direction = 2')
             STATE = 3
             mL.duty_cycle_sp = TURN_SPEED
             mR.duty_cycle_sp = BASE_SPEED
@@ -150,13 +145,11 @@ while True:
                 if sL.value() <= 20:
                     on_line = True
                 if on_line is True and sL.value() >= 60:
-                    print('passed line')
                     on_line = False
                     mL.duty_cycle_sp = BASE_SPEED
                     mR.duty_cycle_sp = BASE_SPEED
                     STATE = 0
         elif direction == 3:
-            print('Direction = 3')
             STATE = 3
             mR.duty_cycle_sp = TURN_SPEED
             mL.duty_cycle_sp = BASE_SPEED
@@ -164,12 +157,12 @@ while True:
                 if sR.value() <= 20:
                     on_line = True
                 if on_line is True and sR.value() >= 60:
-                    print('passed line')
                     on_line = False
                     mL.duty_cycle_sp = BASE_SPEED
                     mR.duty_cycle_sp = BASE_SPEED
                     STATE = 0
     if finished:
+        print("Finished, breaking")
         break
 
 print('Program finishing')
