@@ -87,6 +87,9 @@ finished = False
 checked = False
 
 while True:
+    if finished:
+        print("Finished, breaking")
+        break
     if last_run:
         print("In last run")
         direction = 1
@@ -161,9 +164,6 @@ while True:
                     mL.duty_cycle_sp = BASE_SPEED
                     mR.duty_cycle_sp = BASE_SPEED
                     STATE = 0
-    if finished:
-        print("Finished, breaking")
-        break
 
 print('Program finishing')
 mL.duty_cycle_sp = 0
