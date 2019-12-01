@@ -95,6 +95,7 @@ while True:
         direction = 1
         checked = True
         finished = True
+        STATE = 2
     if checked is False:
         direction = calculate_direction(solution[counter_index])
         increment_counter()
