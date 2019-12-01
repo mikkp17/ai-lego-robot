@@ -64,10 +64,10 @@ def find_direction_index(direction):
 
 def increment_counter():
     global counter_index
-    global finished
+    global last_run
     counter_index += 1
     if counter_index >= len(solution):
-        finished = True
+        last_run = True
 
 
 DIRECTIONS = ['u', 'r', 'd', 'l']
@@ -82,13 +82,15 @@ mL.duty_cycle_sp = BASE_SPEED
 mR.duty_cycle_sp = BASE_SPEED
 on_line = False
 direction = -1
+last_run = False
 finished = False
 checked = False
 
 while True:
-    if finished:
+    if last_run:
         direction = 1
         checked = True
+        finished = True
     if checked is False:
         direction = calculate_direction(solution[counter_index])
         print(solution[counter_index])
