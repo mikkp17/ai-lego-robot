@@ -70,12 +70,27 @@ def increment_counter():
         last_run = True
 
 
+def fix_solution(string):
+    sol = ""
+    prev = ''
+    for char in string:
+        if char.islower() and prev.isupper():
+            sol += prev
+            sol += char
+            sol += char
+        else:
+            sol += char
+        prev = char
+    return sol
+
+
 DIRECTIONS = ['u', 'r', 'd', 'l']
 
 solution_string = 'llllUdrruLdldlluRRRRRdrUUruulldRRdldlluluulldRurDDrdLLdlluRRRRRdrUUruulldRurDurrdLulldddllululDrdLdlluRRRRRdrUUdllulullDrddlluRRRRRdrU'
+fixed_string = fix_solution(solution_string)
 # 'udrulll'
 # 'lllldlluRRUdRRRdrUUruulldRRdldlluLuulldRurDDullDRdRRRdrUUruurrdLulDulldRddlllldlluRRRRRdrUUdlllluurDldRRRdrU'
-solution = list(solution_string)
+solution = list(fixed_string)
 STATE = 0
 current_direction = 'l'
 counter_index = 0
