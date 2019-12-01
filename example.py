@@ -68,13 +68,13 @@ def increment_counter():
     counter_index += 1
     print(counter_index)
     print(len(solution))
-    if counter_index > len(solution):
+    if counter_index >= len(solution):
         finished = True
 
 
 DIRECTIONS = ['u', 'r', 'd', 'l']
 
-solution_string = 'ul'
+solution_string = 'ud'
 # 'lllldlluRRUdRRRdrUUruulldRRdldlluLuulldRurDDullDRdRRRdrUUruurrdLulDulldRddlllldlluRRRRRdrUUdlllluurDldRRRdrU'
 solution = list(solution_string)
 STATE = 0
