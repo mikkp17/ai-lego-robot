@@ -76,7 +76,14 @@ def fix_solution(string):
     for char in string:
         if char.islower() and prev.isupper():
             sol += prev
-            sol += char
+            if prev.lower() == 'u':
+                sol += 'd'
+            elif prev.lower() == 'd':
+                sol += 'u'
+            elif prev.lower() == 'l':
+                sol += 'r'
+            elif prev.lower() == 'r':
+                sol += 'l'
             sol += char
         else:
             sol += char
