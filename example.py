@@ -24,9 +24,10 @@ sR.mode = 'COL-REFLECT'
 assert sL.connected, "ColorSensorLeft(ColorSensor) is not connected"
 assert sR.connected, "ColorSensorRight(ColorSensor) is not connected"
 
-import ev3dev.auto as auto
-sF = auto.LightSensor('in3')
+
+sF = ev3.LightSensor('in3')
 assert sF.connected, 'Is not connected'
+
 
 def signal_handler(sig, frame):
     print('Shutting down gracefully')
@@ -96,8 +97,8 @@ def fix_solution(string):
 
 DIRECTIONS = ['u', 'r', 'd', 'l']
 
-solution_string = 'UUdr'
-# solution_string = 'llllUdrruLdldlluRRRRRdrUUruulldRRdldlluluulldRurDDrdLLdlluRRRRRdrUUruulldRurDurrdLulldddllululDrdLdlluRRRRRdrUUdllulullDrddlluRRRRRdrU'
+# solution_string = ''
+solution_string = 'llllUdrruLdldlluRRRRRdrUUruulldRRdldlluluulldRurDDrdLLdlluRRRRRdrUUruulldRurDurrdLulldddllululDrdLdlluRRRRRdrUUdllulullDrddlluRRRRRdrU'
 fixed_string = fix_solution(solution_string)
 print(fixed_string)
 # 'udrulll'
@@ -126,17 +127,19 @@ while True:
         increment_counter()
         checked = True
     while STATE == 0:
-        # if direction == 1:
-            # if sT.value() <= 50:
-            #     STATE = 2
-        if sL.value() <= 20 and sR.value() <= 20:
+        if direction == 1:
+            if sF.value() <= 300:
+                print("new sensor")
+                STATE = 2
+        elif sL.value() <= 20 and sR.value() <= 20:
             print("crossed line")
             mL.duty_cycle_sp = BASE_SPEED
             mR.duty_cycle_sp = BASE_SPEED
-            if direction == 1:
-                STATE = 2
-            else:
-                STATE = 1
+            STATE = 1
+            # if direction == 1:
+            #     STATE = 2
+            # else:
+            #     STATE = 1
         if sL.value() <= 60 <= sR.value():
             mL.duty_cycle_sp = TURN_SPEED
             mR.duty_cycle_sp = BASE_SPEED
