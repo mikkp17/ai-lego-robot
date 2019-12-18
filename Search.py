@@ -152,8 +152,7 @@ def remove_first(queue):
 
 
 def allowed_actions(state):
-    """Returns a list of allowed actions from current state
-    MAKE THIS WORK WITH G AS WELL"""
+    """Returns a list of allowed actions from current state"""
     allowed = []
     i, j = find_current_robot_pos(state)
 
